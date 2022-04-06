@@ -28,3 +28,4 @@ else:
 # Check free-date
 clearUrl = url.replace("https://","")
 whoisUrl = ('https://whois.ru/'+(clearUrl))
+
