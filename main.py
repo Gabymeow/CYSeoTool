@@ -8,7 +8,6 @@ print("Напиши URL в формате https://site.com")
 url = input()
 
 # Check correct URL
-
 while validators.url(url) != True:
     print('Неправильный адрес')
     print("Напиши URL в формате https://site.com")
@@ -34,3 +33,13 @@ whoisUrl = requests.get('https://whois.ru/'+(clearUrl))
 soup = BeautifulSoup(whoisUrl.content, 'html.parser')
 text = soup.find_all(class_="raw-domain-info-pre")
 print('Информация о домене: '+(str(text[1]))+ '\n')
+
+# Check HTML sitemap
+print('Поиск HTML карты сайта: ')
+HTMLSitemap = ['map', 'sitemap', 'karta']
+
+for tail in HTMLSitemap:
+    mapURL = requests.get(url+'/'+tail)
+    if mapURL.status_code == 200:
+        print('Найдена карта сайта' + '\n')
+        break
