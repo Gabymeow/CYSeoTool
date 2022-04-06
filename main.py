@@ -30,3 +30,4 @@ clearUrl = url.replace("https://","")
 whoisUrl = ('https://whois.ru/'+(clearUrl))
 
 add = 'fdddsfds'
+add = 'fdddsfdsdsas'
