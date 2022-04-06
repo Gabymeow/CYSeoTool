@@ -1,5 +1,7 @@
 import requests
 import validators
+from bs4 import BeautifulSoup
+
 
 # Enter URL
 print("Напиши URL в формате https://site.com")
@@ -12,7 +14,7 @@ while validators.url(url) != True:
     print("Напиши URL в формате https://site.com")
     url = input()
 else:
-    print('Выполняю проверку..')
+    print('Выполняю проверку..'+'\n')
     try:
         requests.get(url)
     except requests.exceptions.ConnectionError:
@@ -21,13 +23,14 @@ else:
 # Check domain
 print('Проверка домена')
 if ".ru" in url:
-    print("Сайт в доменной зоне .RU")
+    print("Сайт в доменной зоне .RU"+'\n')
 else:
-    print("Сайт в другой доменной зоне")
+    print("Сайт в другой доменной зоне"+'\n')
 
 # Check free-date
 clearUrl = url.replace("https://","")
-whoisUrl = ('https://whois.ru/'+(clearUrl))
+whoisUrl = requests.get('https://whois.ru/'+(clearUrl))
 
-add = 'fdddsfds'
-add = 'fdddsfdsdsas'
+soup = BeautifulSoup(whoisUrl.content, 'html.parser')
+text = soup.find_all(class_="raw-domain-info-pre")
+print('Информация о домене: '+(str(text[1]))+ '\n')
