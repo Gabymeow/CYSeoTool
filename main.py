@@ -43,3 +43,9 @@ for tail in HTMLSitemap:
     if mapURL.status_code == 200:
         print('Найдена карта сайта' + '\n')
         break
+
+# Check style <body>
+#styleUrl = requests.get(url)
+#soup1 = BeautifulSoup(styleUrl.content, 'html.parser')
+#style = soup1.find_all('body')
+#print (style)
