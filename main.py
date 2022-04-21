@@ -1,4 +1,6 @@
+from ctypes.wintypes import PINT
 import requests
+import whois
 import validators
 from bs4 import BeautifulSoup
 
@@ -28,24 +30,16 @@ else:
 
 # Check free-date
 clearUrl = url.replace("https://","")
-whoisUrl = requests.get('https://whois.ru/'+(clearUrl))
+whoisData = whois.whois(clearUrl)
 
-soup = BeautifulSoup(whoisUrl.content, 'html.parser')
-text = soup.find_all(class_="raw-domain-info-pre")
-print('Информация о домене: '+(str(text[1]))+ '\n')
+#print(whoisData)
 
-# Check HTML sitemap
-print('Поиск HTML карты сайта: ')
-HTMLSitemap = ['map', 'sitemap', 'karta']
 
-for tail in HTMLSitemap:
-    mapURL = requests.get(url+'/'+tail)
-    if mapURL.status_code == 200:
-        print('Найдена карта сайта' + '\n')
-        break
+expDate = whoisData["expiration_date"]
+org = str(whoisData["org"])
+print('Дата окончания домена: '+str(expDate))
 
-# Check style <body>
-#styleUrl = requests.get(url)
-#soup1 = BeautifulSoup(styleUrl.content, 'html.parser')
-#style = soup1.find_all('body')
-#print (style)
+if org == 'None':
+    print('В хуиз домена закрытая информация')
+else:
+    print('Организация: '+str(org))
