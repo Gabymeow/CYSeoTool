@@ -35,8 +35,6 @@ clearUrl = url.replace("https://","")
 whoisData = whois.whois(clearUrl)
 
 #print(whoisData)
-
-
 expDate = whoisData["expiration_date"]
 org = str(whoisData["org"])
 print('Дата окончания домена: '+str(expDate))
@@ -48,10 +46,17 @@ else:
     print('Организация: '+str(org)+'\n')
 
 # geo name check
+geoNames = ['spb','msk']
 geo = bool(re.search('spb', clearUrl))
-
 if geo == True:
     print('Есть указание на географию в домене'+'\n')
 else:
     print('geo clear'+'\n')
 
+#subdomens check
+be1ApiKey = 'm0xomKo92U6Zeo9JhlqSHEyMxygW0u0K'
+tool = 'uznat-poddomeni-saita'
+domain = "be1.ru"
+
+#be1Request = ('https://be1.ru/api/'+tool+'/add-task?apikey='+be1ApiKey)
+#print(be1Request)
