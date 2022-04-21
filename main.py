@@ -1,7 +1,9 @@
+from asyncio.windows_events import NULL
 from ctypes.wintypes import PINT
 import requests
 import whois
 import validators
+import re
 from bs4 import BeautifulSoup
 
 
@@ -39,7 +41,17 @@ expDate = whoisData["expiration_date"]
 org = str(whoisData["org"])
 print('Дата окончания домена: '+str(expDate))
 
+# Org check
 if org == 'None':
-    print('В хуиз домена закрытая информация')
+    print('В хуиз домена закрытая информация'+'\n')
 else:
-    print('Организация: '+str(org))
+    print('Организация: '+str(org)+'\n')
+
+# geo name check
+geo = bool(re.search('spb', clearUrl))
+
+if geo == True:
+    print('Есть указание на географию в домене'+'\n')
+else:
+    print('geo clear'+'\n')
+
