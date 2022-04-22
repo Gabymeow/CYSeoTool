@@ -4,6 +4,7 @@ import requests
 import whois
 import validators
 import re
+import json
 from bs4 import BeautifulSoup
 
 
@@ -39,13 +40,13 @@ expDate = whoisData["expiration_date"]
 org = str(whoisData["org"])
 print('Дата окончания домена: '+str(expDate))
 
-# Org check
+# Org check (нужна проверка на то, когда нет ORG)
 if org == 'None':
     print('В хуиз домена закрытая информация'+'\n')
 else:
     print('Организация: '+str(org)+'\n')
 
-# geo name check
+# geo name check (Надо расширить спиоск или как-то иначе проверять)
 geoNames = ['spb','msk']
 geo = bool(re.search('spb', clearUrl))
 if geo == True:
@@ -53,10 +54,15 @@ if geo == True:
 else:
     print('geo clear'+'\n')
 
-#subdomens check
+#subdomens check be1 API
 be1ApiKey = 'm0xomKo92U6Zeo9JhlqSHEyMxygW0u0K'
 tool = 'uznat-poddomeni-saita'
-domain = "be1.ru"
 
-#be1Request = ('https://be1.ru/api/'+tool+'/add-task?apikey='+be1ApiKey)
-#print(be1Request)
+be1ApiCon = requests.post('https://be1.ru/api/tools/add-task?apikey='+be1ApiKey, data={'tool':'uznat-poddomeni-saita', 'domain':clearUrl})
+
+print('Ищу доступные поддомены..'+'\n')
+if be1ApiCon.status_code == 200:
+    print('Success!')
+elif be1ApiCon.status_code == 404:
+    print('Not Found.')
+print (be1ApiCon.json()['message'])
